@@ -79,6 +79,7 @@ public class BroadCastService {
         }
     }
 
+    //채팅 데이터 저장
     public ResponseEntity saveChat(ChatDTO chatDTO) {
 
         Chat chat = chatDTO.getChat();

@@ -30,6 +30,7 @@ public class AuthenticationConfig {
                 .cors().and()
                 .authorizeRequests()
                 .requestMatchers("/user/test","/user/find").permitAll()//허용
+
                 .requestMatchers("/**").authenticated()//인증 필요
                 .and()
                 .sessionManagement()

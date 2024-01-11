@@ -1,5 +1,8 @@
 package Debug.LSM.controller;
 
+import Debug.LSM.DTO.LoginResponseDTO;
+import Debug.LSM.DTO.RefreshTokenDTO;
+import Debug.LSM.DTO.TokenDTO;
 import Debug.LSM.service.UserService;
 import Debug.LSM.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +22,21 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/test")
-    public ResponseEntity test(){
+    public ResponseEntity<LoginResponseDTO> test() {
         return userService.test();
     }
 
     @GetMapping("/test2")
-    public ResponseEntity<String> test2(Authentication authentication){
+    public ResponseEntity<String> test2(Authentication authentication) {
         return ResponseEntity.ok(authentication.getName());
     }
 
 
     //사용자 정보 가져오기
     //없으면 회원가입
-    @GetMapping("/find")
-    public ResponseEntity<User> find_User(@RequestParam("id_token") String idToken,
-                                          @RequestParam("access_token") String access_token) {
+    @GetMapping("/login")
+    public ResponseEntity<LoginResponseDTO> find_User(@RequestParam("id_token") String idToken,
+                                                      @RequestParam("access_token") String access_token) {
 
         //jwt PAYLOAD부분 추출
         String payload = idToken.split("[.]")[1];
@@ -41,8 +44,18 @@ public class UserController {
         return userService.find_User(payload, access_token);
     }
 
+    @DeleteMapping("/logout")
+    public ResponseEntity logout(@RequestBody RefreshTokenDTO refreshTokenDTO) {
+        return userService.logout(refreshTokenDTO);
+    }
+
+    @PostMapping("/refreshToken")
+    public ResponseEntity<LoginResponseDTO> refreshToken(@RequestBody RefreshTokenDTO refreshTokenDTO){
+        return userService.refreshToken(refreshTokenDTO);
+    }
+
     @GetMapping("/google")
-    public void google(@RequestParam("access_token") String access_token){
+    public void google(@RequestParam("access_token") String access_token) {
         System.out.println(userService.google(access_token));
     }
 

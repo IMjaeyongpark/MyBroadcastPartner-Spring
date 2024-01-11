@@ -10,6 +10,7 @@ import Debug.LSM.DTO.Chat;
 import Debug.LSM.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,11 +33,11 @@ public class BroadCastController {
     //방송정보 저장, 있으면 반환
     //계정 맞는지 확인하는 인증 추가 예정
     @GetMapping("/identification")
-    public ResponseEntity<String> identification(@RequestParam("email") String email,
+    public ResponseEntity<String> identification(Authentication authentication,
                                                  @RequestParam("URI") String URI) {
 
         User user = new User();
-        user.set_id(email);
+        user.set_id(authentication.getName());
         //URI에서 BCID추출
         String BCID = URI.replace("https://", "").replace("www.", "")
                 .replace("youtube.com/watch?v=", "");
@@ -47,11 +48,11 @@ public class BroadCastController {
 
     //채팅 저장 및 전달
     @PostMapping("/chat")
-    public ResponseEntity saveChat(@RequestParam("email") String email,
+    public ResponseEntity saveChat(Authentication authentication,
                                    @RequestParam("BCID") String BCID,
                                    @RequestParam("name") String name,
                                    @RequestBody Chat chat) {
-        ChatDTO chatDTO = ChatDTO.builder().user(User.builder()._id(email).build())
+        ChatDTO chatDTO = ChatDTO.builder().user(User.builder()._id(authentication.getName()).build())
                 .BCID(BCID).name(name).chat(chat).build();
         return broadCastService.saveChat(chatDTO);
     }

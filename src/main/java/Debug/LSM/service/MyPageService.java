@@ -25,6 +25,7 @@ public class MyPageService {
         this.yearRepositoy = yearRepositoy;
     }
 
+    //방송 데이터 가져오기
     public ResponseEntity<MypageDTO> mypageData(User user) {
 
         try {

@@ -4,11 +4,13 @@ import Debug.LSM.domain.Purchase_History;
 import lombok.Builder;
 import lombok.Getter;
 import Debug.LSM.domain.User;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Builder
 @Getter
+@Setter
 public class PurchaseHistoryDTO {
     private String apply_num;
     private String name;
