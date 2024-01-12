@@ -10,6 +10,8 @@ import java.util.List;
 @Builder
 public class MypageDTO {
 
+    @Builder.Default
     private List<BroadCast> broadCasts = new ArrayList<BroadCast>();
+    @Builder.Default
     private List<YearTotalData> years = new ArrayList<YearTotalData>();
 }

@@ -20,8 +20,11 @@ import java.util.List;
 public class Author {
     @Id
     private String name;
+    @Builder.Default
     public int[] All_Emotion3 = new int[3];
+    @Builder.Default
     public int[] All_Emotion7 = new int[7];
+    @Builder.Default
     public List<Chat> chat = new ArrayList<Chat>();
     @DBRef
     private BroadCast broadCast;

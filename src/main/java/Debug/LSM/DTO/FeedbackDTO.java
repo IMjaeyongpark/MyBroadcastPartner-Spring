@@ -14,5 +14,7 @@ import java.util.List;
 public class FeedbackDTO {
     private JSONObject Viewer;
     private String published;
+
+    @Builder.Default
     public List<Chat> chats = new ArrayList<Chat>();
 }
