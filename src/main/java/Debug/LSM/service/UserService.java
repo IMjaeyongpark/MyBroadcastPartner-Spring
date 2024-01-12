@@ -74,7 +74,7 @@ public class UserService {
 
         User u = user_repository.findOneBy_id(payload.getString("email"));
         if (u == null || u.getDate() == null || u.getDate().isBefore(LocalDateTime.now())) {
-            user.setClass_name("베이직");
+            user.setClass_name("basic");
             user.setDate(null);
         } else {
             user.setClass_name(u.getClass_name());

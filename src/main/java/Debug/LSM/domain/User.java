@@ -24,6 +24,6 @@ public class User {
     private String Picture;
 
     private String Channels_Id;
-    private String class_name = "basic";
-    private LocalDateTime date = null;
+    private String class_name;
+    private LocalDateTime date;
 }
