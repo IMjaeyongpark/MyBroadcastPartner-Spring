@@ -21,6 +21,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+      FLASK_IP: ${{ secrets.FLASK_IP }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -34,14 +40,4 @@ jobs:
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: build
-spring:
-  data:
-    mongodb:
-      uri: mongodb+srv://qkrodyd306:QRd8BDM1HzT4W5bA@lsm.n1jt3fs.mongodb.net/LSM?retryWrites=true&w=majority
-java:
-  file:
-    youtubeAPIkey: AIzaSyATIpI3znMnt3r9-9N3zr6ijtqV8ySiPwQ
-    flask_ip: http://localhost:8801
-jwt:
-  secret: "asfasfasfasffwfuasfbaosfuibjkvoaknfdofisifnkaodfasnko"
 
