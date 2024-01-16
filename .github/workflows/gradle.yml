@@ -19,7 +19,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: centOS
+    runs-on: Linux
 
     steps:
     - uses: actions/checkout@v3
