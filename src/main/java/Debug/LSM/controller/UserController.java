@@ -21,6 +21,11 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping("t")
+    public String t(){
+        return "hi";
+    }
+
     @GetMapping("/test")
     public ResponseEntity<LoginResponseDTO> test() {
         return userService.test();
