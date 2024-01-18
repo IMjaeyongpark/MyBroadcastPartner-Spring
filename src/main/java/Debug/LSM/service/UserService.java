@@ -56,6 +56,7 @@ public class UserService {
                 ._id("qkrodyd306@gmail.com")
                 .refreshToken(loginResponseDTO.getRefreshToken()).build();
 
+        refreshTokenRepository.save(refreshTokenEntity);
 
         return ResponseEntity.ok(loginResponseDTO);
     }
