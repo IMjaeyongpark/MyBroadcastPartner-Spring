@@ -19,7 +19,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: Amazon Linux 2023
 
     steps:
     - uses: actions/checkout@v3
