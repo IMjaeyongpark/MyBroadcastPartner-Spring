@@ -27,8 +27,8 @@ jobs:
         run: aws s3 cp --region ap-northeast-2 ./debug_back.tar.gz s3://lsmaback/archive/
 
       - name: Deploy with AWS CodeDeploy
-        run: aws deploy create-deployment \
-          --application-name lsm_github_action \
-          --deployment-config-name CodeDeployDefault.OneAtATime \
-          --deployment-group-name lsm_github_action_codedeploy \
+        run: aws deploy create-deployment
+          --application-name lsm_github_action
+          --deployment-config-name CodeDeployDefault.OneAtATime
+          --deployment-group-name lsm_github_action_codedeploy
           --s3-location bucket=lsmaback,bundleType=tgz,key=archive/debug_back.tar.gz
