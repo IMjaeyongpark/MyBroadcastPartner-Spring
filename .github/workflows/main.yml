@@ -34,7 +34,7 @@ jobs:
         aws-region: ap-northeast-2
         
     - name: upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./drcloud.tar.gz s3://github-action-codedeploy-s3/archive/
+      run: aws s3 cp --region ap-northeast-2 ./debug_back.tar.gz s3://lsmaback
       
     - name: deploy with AWS codeDeploy
       run: aws deploy create-deployment
