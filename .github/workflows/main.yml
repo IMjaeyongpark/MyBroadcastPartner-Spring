@@ -23,8 +23,8 @@ jobs:
     - name: checkout release
       uses: actions/checkout@v3
       
-    - name: archive drcloud 
-      run: tar cvfz ./drcloud.tar.gz *
+    - name: archive debug_back
+      run: tar cvfz ./debug_back.tar.gz *
        
     - name: AWS configure credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -38,7 +38,7 @@ jobs:
       
     - name: deploy with AWS codeDeploy
       run: aws deploy create-deployment
-        --application-name githubaction-test
+        --application-name lsm_github_action
         --deployment-config-name CodeDeployDefault.OneAtATime
-        --deployment-group-name githubaction-test-group
-        --s3-location bucket=github-action-codedeploy-s3,bundleType=tgz,key=archive/drcloud.tar.gz
+        --deployment-group-name lsm_github_action_codedeploy
+        --s3-location bucket=lsmaback,bundleType=tgz,key=archive/debug_back.tar.gz
