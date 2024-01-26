@@ -1,7 +1,5 @@
-
 version: 0.0
 os: linux
-
 files:
   - source: /
-    destination: lsmback
+    destination: /home/ec2-user/lsmback
