@@ -3,4 +3,8 @@ os: linux
 files:
   - source: /
     destination: /home/ec2-user/lsmback
-
+permissions:
+  - object: /home/ec2-user/lsmback
+    owner: ec2-user
+    group: ec2-user
+    mode: 755
