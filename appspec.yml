@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/lsmaback
+    destination: /home/ec2-user/LSM
 permissions:
-  - object: /home/ec2-user/lsmaback
+  - object: /home/ec2-user/LSM
     owner: ec2-user
     group: ec2-user
     mode: 755
