@@ -1,17 +1,16 @@
 package Debug.LSM.controller;
 
 
-import Debug.LSM.DTO.ChatDTO;
-import Debug.LSM.DTO.FeedbackDTO;
-import Debug.LSM.DTO.TopicDTO;
-import Debug.LSM.DTO.ViewerDTO;
+import Debug.LSM.DTO.*;
 import Debug.LSM.service.BroadCastService;
-import Debug.LSM.DTO.Chat;
 import Debug.LSM.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/broadcast")
@@ -23,28 +22,37 @@ public class BroadCastController {
 
     private final BroadCastService broadCastService;
 
-    @GetMapping("/test")
-    public ResponseEntity test() {
-
-
-        return ResponseEntity.ok().build();
-    }
-
     //방송정보 저장, 있으면 반환
     //계정 맞는지 확인하는 인증 추가 예정
     @GetMapping("/identification")
-    public ResponseEntity<String> identification(Authentication authentication,
+    public ResponseEntity<BCIDDTO> identification(Authentication authentication,
                                                  @RequestParam("URI") String URI) {
 
         User user = new User();
         user.set_id(authentication.getName());
+
         //URI에서 BCID추출
-        String BCID = URI.replace("https://", "").replace("www.", "")
-                .replace("youtube.com/watch?v=", "");
+        String[] URIs = URI.split("https://");
+        BCIDDTO bcid = new BCIDDTO();
 
-        return broadCastService.identification(user, BCID);
+
+        for (int i = 0; i < URIs.length; i++) {
+            if (URIs[i].contains("youtube.com")) {
+                String tmp = URIs[i].replace("https://", "").replace("www.", "")
+                        .replace("youtube.com/watch?v=", "");
+                bcid.setYoutubeBCID(tmp);
+            } else if (URIs[i].contains("chzzk.naver.com")) {
+                String tmp = URIs[i].replace("chzzk.naver.com/live/", "");
+                bcid.setChzzik(tmp);
+            } else if (URIs[i].contains("play.afreecatv.com")) {
+                String[] tmp = URIs[i].split("/");
+                bcid.setAfreecaBID(tmp[1]);
+                bcid.setAfreecaBND(tmp[2]);
+            }
+        }
+
+        return broadCastService.identification(user, bcid);
     }
-
 
     //채팅 저장 및 전달
     @PostMapping("/chat")

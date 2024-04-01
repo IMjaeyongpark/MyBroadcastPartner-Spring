@@ -2,9 +2,7 @@ package Debug.LSM.service;
 
 
 import Debug.LSM.DTO.*;
-import Debug.LSM.repository.AuthorRepositoy;
-import Debug.LSM.repository.BroadCastRepository;
-import Debug.LSM.repository.YearRepositoy;
+import Debug.LSM.repository.*;
 import Debug.LSM.domain.*;
 import Debug.LSM.utils.YoutubeUtil;
 import org.json.JSONObject;
@@ -35,33 +33,57 @@ public class BroadCastService {
     private final BroadCastRepository broadCastRepository;
     private final YearRepositoy yearRepositoy;
     private final AuthorRepositoy authorRepositoy;
+    private final AfreecaTV_BroadCastRepository afreecaTVBroadCastRepository;
+    private final Chzzk_BroadCastRepository chzzkBroadCastRepository;
+
 
     @Autowired
     public BroadCastService(BroadCastRepository broadCastRepository,
                             YearRepositoy yearRepositoy,
-                            AuthorRepositoy authorRepositoy) {
+                            AuthorRepositoy authorRepositoy,
+                            AfreecaTV_BroadCastRepository afreecaTVBroadCastRepository,
+                            Chzzk_BroadCastRepository chzzkBroadCastRepository) {
         this.broadCastRepository = broadCastRepository;
         this.yearRepositoy = yearRepositoy;
         this.authorRepositoy = authorRepositoy;
+        this.afreecaTVBroadCastRepository = afreecaTVBroadCastRepository;
+        this.chzzkBroadCastRepository = chzzkBroadCastRepository;
     }
 
     //방송정보 저장, 있으면 반환
     //계정 맞는지 확인하는 인증 추가 예정
-    public ResponseEntity<String> identification(User user, String BCID) {
+    public ResponseEntity<BCIDDTO> identification(User user, BCIDDTO BCID) {
+
         //유저가 없으면 반환
         if (user == null) return ResponseEntity.badRequest().build();
 
+        Chzzk_BroadCast chzzkBroadCast = new Chzzk_BroadCast();
+        AfreecaTV_BroadCast afreecaTVBroadCast = new AfreecaTV_BroadCast();
+
+        BroadCast tmp = BroadCast.builder()._id(BCID.getYoutubeBCID()).build();
+
+        if(BCID.getChzzik() != null){
+            chzzkBroadCast.set_id(BCID.getChzzik());
+            chzzkBroadCast.setBroadCast(tmp);
+            chzzkBroadCastRepository.save(chzzkBroadCast);
+        }
+
+        if(BCID.getAfreecaBND() != null){
+            afreecaTVBroadCast.set_id(BCID.getAfreecaBND());
+            afreecaTVBroadCast.setBID(BCID.getAfreecaBID());
+            afreecaTVBroadCast.setBroadCast(tmp);
+            afreecaTVBroadCastRepository.save(afreecaTVBroadCast);
+        }
+
+
         try {
             //유튜브 데이터 가져오기
-            JSONObject json = YoutubeUtil.getYouTubeBCData(BCID,youtubeAPIKey);
+            JSONObject json = YoutubeUtil.getYouTubeBCData(BCID.getYoutubeBCID(),youtubeAPIKey);
             if (json == null) return ResponseEntity.badRequest().build();
             //방송정보 담기
-            String uri = "https://www.youtube.com/watch?v=" + BCID;
-            BroadCast BC = BroadCast.builder()._id(BCID).URI(uri).Title(json.getString("title")).
+            BroadCast BC = BroadCast.builder()._id(BCID.getYoutubeBCID()).URI(BCID.getYoutubeBCID()).Title(json.getString("title")).
                     ThumbnailsUrl(json.getJSONObject("thumbnails").getJSONObject("default").getString("url")).
                     user(user).published(json.getString("publishedAt")).build();
-
-
             try {
                 BroadCast TMP = broadCastRepository.findOneBy_id(BC.get_id());
                 if (TMP != null) {

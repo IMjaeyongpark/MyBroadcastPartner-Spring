@@ -3,6 +3,8 @@ package Debug.LSM.controller;
 import Debug.LSM.DTO.LoginResponseDTO;
 import Debug.LSM.DTO.RefreshTokenDTO;
 import Debug.LSM.DTO.TokenDTO;
+import Debug.LSM.DTO.ViewrLoginResponseDTO;
+import Debug.LSM.domain.Viewer;
 import Debug.LSM.service.UserService;
 import Debug.LSM.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("t")
-    public String t(){
-        return "hi";
-    }
 
     @GetMapping("/test")
     public ResponseEntity<LoginResponseDTO> test() {
@@ -48,6 +46,8 @@ public class UserController {
 
         return userService.find_User(payload, access_token);
     }
+
+
 
     @DeleteMapping("/logout")
     public ResponseEntity logout(@RequestBody RefreshTokenDTO refreshTokenDTO) {

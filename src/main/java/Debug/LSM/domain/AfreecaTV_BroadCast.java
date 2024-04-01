@@ -14,8 +14,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 public class AfreecaTV_BroadCast {
     @Id
-    //BCID
+    //BNO
     private String _id;
+    private String BID;
     @Builder.Default
     public int[] All_Emotion3 = new int[3];
     @Builder.Default

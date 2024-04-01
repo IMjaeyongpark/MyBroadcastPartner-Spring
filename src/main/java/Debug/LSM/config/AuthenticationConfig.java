@@ -29,7 +29,7 @@ public class AuthenticationConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .requestMatchers("/user/t","/user/test","/user/login","/user/logout","/user/google","broadcast/chat","broadcast/saveViewer","broadcast/getChat").permitAll()//허용
+                .requestMatchers("**").permitAll()//허용
                 .requestMatchers("/**").authenticated()//인증 필요
                 .and()
                 .sessionManagement()
