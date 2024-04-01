@@ -2,9 +2,13 @@ package Debug.LSM.service;
 
 import Debug.LSM.DTO.LoginResponseDTO;
 import Debug.LSM.DTO.RefreshTokenDTO;
+import Debug.LSM.DTO.ViewerDTO;
+import Debug.LSM.DTO.ViewrLoginResponseDTO;
 import Debug.LSM.domain.RefreshTokenEntity;
+import Debug.LSM.domain.Viewer;
 import Debug.LSM.repository.RefreshTokenRepository;
 import Debug.LSM.repository.UserRepository;
+import Debug.LSM.repository.ViewerRepository;
 import Debug.LSM.utils.JwtUtil;
 import Debug.LSM.utils.YoutubeUtil;
 import org.json.JSONObject;
@@ -41,11 +45,16 @@ public class UserService {
 
     private final RefreshTokenRepository refreshTokenRepository;
 
+    private final ViewerRepository viewerRepository;
+
     @Autowired
-    public UserService(UserRepository user_repository, RefreshTokenRepository refreshTokenRepository) {
+    public UserService(UserRepository user_repository, RefreshTokenRepository refreshTokenRepository,
+                       ViewerRepository viewerRepository) {
         this.user_repository = user_repository;
         this.refreshTokenRepository = refreshTokenRepository;
+        this.viewerRepository = viewerRepository;
     }
+
 
     public ResponseEntity<LoginResponseDTO> test() {
         LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder()
@@ -63,13 +72,13 @@ public class UserService {
 
     //사용자 정보 가져오기
     public ResponseEntity<LoginResponseDTO> find_User(String token, String access_token) {
-        String channels_Id = YoutubeUtil.getChannelId(access_token);
+        //String channels_Id = YoutubeUtil.getChannelId(access_token);
         //바디 디코딩 후 json형태로 변환
         Base64.Decoder decoder = Base64.getUrlDecoder();
         String subject = new String(decoder.decode(token));
         JSONObject payload = new JSONObject(subject);
         //값 가져오기
-        User user = User.builder().Channels_Id(channels_Id).Name(payload.getString("name"))
+        User user = User.builder().Name(payload.getString("name"))
                 ._id(payload.getString("email")).Picture(payload.getString("picture")).build();
 
         User u = user_repository.findOneBy_id(payload.getString("email"));
@@ -98,6 +107,33 @@ public class UserService {
         refreshTokenRepository.save(refreshTokenEntity);
 
         return ResponseEntity.ok(loginResponseDTO);
+    }
+
+    //시청자 회원가임
+    public ResponseEntity newViewer(Viewer viewer) {
+        try {
+            viewerRepository.insert(viewer);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    //시청자 로그인
+    public ResponseEntity<ViewrLoginResponseDTO> findViewer(String ID, String password) {
+        Viewer viewer = viewerRepository.findOneBy_id(ID);
+        if (viewer.getPw() == password) {
+            String accessToken = JwtUtil.creatAccessToken(viewer.get_id(), secretKey, accessTokenExpiredMs);
+            String refreshToken = JwtUtil.createRefreshToken(secretKey, refreshTokenExpiredMs);
+            ViewrLoginResponseDTO viewrLoginResponseDTO = ViewrLoginResponseDTO.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .viwer(viewer).build();
+            return ResponseEntity.ok(viewrLoginResponseDTO);
+
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     //구글 사용자 정보 가져오기
@@ -145,4 +181,5 @@ public class UserService {
 
         return ResponseEntity.ok(loginResponseDTO);
     }
+
 }

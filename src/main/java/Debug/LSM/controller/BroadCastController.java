@@ -9,11 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/broadcast")
+@CrossOrigin("*")
 public class BroadCastController {
     @Autowired
     public BroadCastController(BroadCastService broadCastService) {
@@ -43,7 +42,7 @@ public class BroadCastController {
                 bcid.setYoutubeBCID(tmp);
             } else if (URIs[i].contains("chzzk.naver.com")) {
                 String tmp = URIs[i].replace("chzzk.naver.com/live/", "");
-                bcid.setChzzik(tmp);
+                bcid.setChzzk(tmp);
             } else if (URIs[i].contains("play.afreecatv.com")) {
                 String[] tmp = URIs[i].split("/");
                 bcid.setAfreecaBID(tmp[1]);

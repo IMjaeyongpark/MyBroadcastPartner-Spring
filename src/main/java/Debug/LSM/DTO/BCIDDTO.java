@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class BCIDDTO {
     String youtubeBCID;
-    String chzzik;
+    String chzzk;
     String afreecaBID;
     String afreecaBND;
 }

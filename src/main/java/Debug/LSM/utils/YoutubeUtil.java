@@ -27,6 +27,7 @@ public class YoutubeUtil {
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             String jsonString = response.body();
+            System.out.println(jsonString);
             return extractChannelId(jsonString);
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());

@@ -62,8 +62,8 @@ public class BroadCastService {
 
         BroadCast tmp = BroadCast.builder()._id(BCID.getYoutubeBCID()).build();
 
-        if(BCID.getChzzik() != null){
-            chzzkBroadCast.set_id(BCID.getChzzik());
+        if(BCID.getChzzk() != null){
+            chzzkBroadCast.set_id(BCID.getChzzk());
             chzzkBroadCast.setBroadCast(tmp);
             chzzkBroadCastRepository.save(chzzkBroadCast);
         }
