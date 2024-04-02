@@ -60,18 +60,17 @@ public class BroadCastService {
         Chzzk_BroadCast chzzkBroadCast = new Chzzk_BroadCast();
         AfreecaTV_BroadCast afreecaTVBroadCast = new AfreecaTV_BroadCast();
 
-        BroadCast tmp = BroadCast.builder()._id(BCID.getYoutubeBCID()).build();
 
         if(BCID.getChzzk() != null){
             chzzkBroadCast.set_id(BCID.getChzzk());
-            chzzkBroadCast.setBroadCast(tmp);
+            chzzkBroadCast.setUser(user);
             chzzkBroadCastRepository.save(chzzkBroadCast);
         }
 
-        if(BCID.getAfreecaBND() != null){
-            afreecaTVBroadCast.set_id(BCID.getAfreecaBND());
+        if(BCID.getAfreecaBNO() != null){
+            afreecaTVBroadCast.set_id(BCID.getAfreecaBNO());
             afreecaTVBroadCast.setBID(BCID.getAfreecaBID());
-            afreecaTVBroadCast.setBroadCast(tmp);
+            afreecaTVBroadCast.setUser(user);
             afreecaTVBroadCastRepository.save(afreecaTVBroadCast);
         }
 

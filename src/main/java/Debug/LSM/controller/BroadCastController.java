@@ -46,7 +46,7 @@ public class BroadCastController {
             } else if (URIs[i].contains("play.afreecatv.com")) {
                 String[] tmp = URIs[i].split("/");
                 bcid.setAfreecaBID(tmp[1]);
-                bcid.setAfreecaBND(tmp[2]);
+                bcid.setAfreecaBNO(tmp[2]);
             }
         }
 

@@ -9,5 +9,5 @@ public class BCIDDTO {
     String youtubeBCID;
     String chzzk;
     String afreecaBID;
-    String afreecaBND;
+    String afreecaBNO;
 }

@@ -23,5 +23,5 @@ public class AfreecaTV_BroadCast {
     public int[] All_Emotion7 = new int[7];
 
     @DBRef
-    private BroadCast broadCast;
+    private User user;
 }
