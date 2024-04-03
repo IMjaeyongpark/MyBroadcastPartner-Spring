@@ -27,7 +27,7 @@ public class AuthenticationConfig {
         return httpSecurity
                 .httpBasic().disable()
                 .csrf().disable()
-                .cors().disable()
+                .cors().and()
                 .authorizeRequests()
                 .requestMatchers("**").permitAll()//허용
                 .requestMatchers("/**").authenticated()//인증 필요

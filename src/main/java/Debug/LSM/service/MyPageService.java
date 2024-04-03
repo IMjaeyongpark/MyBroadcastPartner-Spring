@@ -27,9 +27,9 @@ public class MyPageService {
 
     //방송 데이터 가져오기
     public ResponseEntity<MypageDTO> mypageData(User user) {
-
         try {
             List<BroadCast> broadCasts = broadCastRepository.findByUser(user);
+
             List<YearTotalData> years = yearRepositoy.findByUser(user);
             Collections.sort(years, (o1, o2) ->
                     Integer.parseInt(o1.get_id().substring(0, 4)) - Integer.parseInt(o2.get_id().substring(0, 4)));

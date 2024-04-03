@@ -7,6 +7,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Document(collection = "BroadCast")
 @NoArgsConstructor
@@ -25,14 +28,15 @@ public class BroadCast {
     private String ActualEndTime;
     private Integer HighViewer;
     private Integer LowViewer;
-
+    @Builder.Default
     public int[] All_Emotion3 = new int[3];
-
+    @Builder.Default
     public int[] All_Emotion7 = new int[7];
     private String published;
+    @Builder.Default
+    public Map<String, Integer> Viewer = new HashMap<>();
 
-    public JSONObject Viewer = new JSONObject();
-
+    @Builder.Default
 
     private TopicDTO topic = null;
 

@@ -20,7 +20,7 @@ public class MyPageController {
 
     //마이페이지 데이터
     @GetMapping("/getInfo")
-    public ResponseEntity<MypageDTO> mypage(Authentication authentication) {
+    public ResponseEntity mypage(Authentication authentication) {
 
         User user = User.builder()._id(authentication.getName()).build();
         return myPageService.mypageData(user);

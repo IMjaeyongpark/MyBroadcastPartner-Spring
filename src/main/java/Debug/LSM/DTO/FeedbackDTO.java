@@ -6,13 +6,17 @@ import lombok.NoArgsConstructor;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class FeedbackDTO {
-    private JSONObject Viewer;
+    @Builder.Default
+    public Map<String, Integer> Viewer = new HashMap<>();
+
     private String published;
 
     @Builder.Default
