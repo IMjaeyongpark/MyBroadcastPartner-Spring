@@ -2,15 +2,13 @@ package Debug.LSM.service;
 
 import Debug.LSM.DTO.LoginResponseDTO;
 import Debug.LSM.DTO.RefreshTokenDTO;
-import Debug.LSM.DTO.ViewerDTO;
-import Debug.LSM.DTO.ViewrLoginResponseDTO;
+import Debug.LSM.DTO.ViewerLoginResponseDTO;
 import Debug.LSM.domain.RefreshTokenEntity;
 import Debug.LSM.domain.Viewer;
 import Debug.LSM.repository.RefreshTokenRepository;
 import Debug.LSM.repository.UserRepository;
 import Debug.LSM.repository.ViewerRepository;
 import Debug.LSM.utils.JwtUtil;
-import Debug.LSM.utils.YoutubeUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,14 +43,14 @@ public class UserService {
 
     private final RefreshTokenRepository refreshTokenRepository;
 
-    private final ViewerRepository viewerRepository;
+
+
 
     @Autowired
     public UserService(UserRepository user_repository, RefreshTokenRepository refreshTokenRepository,
                        ViewerRepository viewerRepository) {
         this.user_repository = user_repository;
         this.refreshTokenRepository = refreshTokenRepository;
-        this.viewerRepository = viewerRepository;
     }
 
 
@@ -109,32 +107,7 @@ public class UserService {
         return ResponseEntity.ok(loginResponseDTO);
     }
 
-    //시청자 회원가임
-    public ResponseEntity newViewer(Viewer viewer) {
-        try {
-            viewerRepository.insert(viewer);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
 
-    //시청자 로그인
-    public ResponseEntity<ViewrLoginResponseDTO> findViewer(String ID, String password) {
-        Viewer viewer = viewerRepository.findOneBy_id(ID);
-        if (viewer.getPw() == password) {
-            String accessToken = JwtUtil.creatAccessToken(viewer.get_id(), secretKey, accessTokenExpiredMs);
-            String refreshToken = JwtUtil.createRefreshToken(secretKey, refreshTokenExpiredMs);
-            ViewrLoginResponseDTO viewrLoginResponseDTO = ViewrLoginResponseDTO.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
-                    .viwer(viewer).build();
-            return ResponseEntity.ok(viewrLoginResponseDTO);
-
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
-    }
 
     //구글 사용자 정보 가져오기
     public String google(String access_token) {

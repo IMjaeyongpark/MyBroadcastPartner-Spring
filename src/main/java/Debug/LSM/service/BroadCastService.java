@@ -61,23 +61,29 @@ public class BroadCastService {
         AfreecaTV_BroadCast afreecaTVBroadCast = new AfreecaTV_BroadCast();
 
 
-        if(BCID.getChzzk() != null){
+        if (BCID.getChzzk() != null) {
             chzzkBroadCast.set_id(BCID.getChzzk());
-            chzzkBroadCast.setUser(user);
-            chzzkBroadCastRepository.save(chzzkBroadCast);
+            Chzzk_BroadCast tmpCh = chzzkBroadCastRepository.findOneBy_id(chzzkBroadCast.get_id());
+            if (tmpCh == null) {
+                chzzkBroadCast.setUser(user);
+                chzzkBroadCastRepository.save(chzzkBroadCast);
+            }
         }
 
-        if(BCID.getAfreecaBNO() != null){
+        if (BCID.getAfreecaBNO() != null) {
             afreecaTVBroadCast.set_id(BCID.getAfreecaBNO());
-            afreecaTVBroadCast.setBID(BCID.getAfreecaBID());
-            afreecaTVBroadCast.setUser(user);
-            afreecaTVBroadCastRepository.save(afreecaTVBroadCast);
+            AfreecaTV_BroadCast tmpAf = afreecaTVBroadCastRepository.findOneBy_id(afreecaTVBroadCast.get_id());
+            if (tmpAf == null) {
+                afreecaTVBroadCast.setBID(BCID.getAfreecaBID());
+                afreecaTVBroadCast.setUser(user);
+                afreecaTVBroadCastRepository.save(afreecaTVBroadCast);
+            }
         }
 
 
         try {
             //유튜브 데이터 가져오기
-            JSONObject json = YoutubeUtil.getYouTubeBCData(BCID.getYoutubeBCID(),youtubeAPIKey);
+            JSONObject json = YoutubeUtil.getYouTubeBCData(BCID.getYoutubeBCID(), youtubeAPIKey);
             if (json == null) return ResponseEntity.badRequest().build();
             //방송정보 담기
             BroadCast BC = BroadCast.builder()._id(BCID.getYoutubeBCID()).URI(BCID.getYoutubeBCID()).Title(json.getString("title")).

@@ -2,7 +2,7 @@ package Debug.LSM.controller;
 
 import Debug.LSM.DTO.LoginResponseDTO;
 import Debug.LSM.DTO.RefreshTokenDTO;
-import Debug.LSM.DTO.ViewrLoginResponseDTO;
+import Debug.LSM.DTO.ViewerLoginResponseDTO;
 import Debug.LSM.domain.Viewer;
 import Debug.LSM.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,16 +45,6 @@ public class UserController {
         String payload = idToken.split("[.]")[1];
 
         return userService.find_User(payload, access_token);
-    }
-
-    @GetMapping("/newViewer")
-    public ResponseEntity newViewer(@RequestBody Viewer viewer){
-        return userService.newViewer(viewer);
-    }
-    @GetMapping("/viwerLogin")
-    public ResponseEntity<ViewrLoginResponseDTO> findViewer(@RequestParam String ID,
-                                                            @RequestParam String password) {
-        return userService.findViewer(ID, password);
     }
 
     @DeleteMapping("/logout")
