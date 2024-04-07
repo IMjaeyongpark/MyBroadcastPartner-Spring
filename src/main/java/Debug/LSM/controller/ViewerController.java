@@ -1,5 +1,6 @@
 package Debug.LSM.controller;
 
+import Debug.LSM.DTO.RefreshTokenDTO;
 import Debug.LSM.DTO.ViewerLoginResponseDTO;
 import Debug.LSM.domain.Viewer;
 import Debug.LSM.service.UserService;
@@ -32,6 +33,11 @@ public class ViewerController {
         return viewerService.findViewer(ID, password);
     }
 
+    @DeleteMapping("/logout")
+    public ResponseEntity logout(@RequestBody RefreshTokenDTO refreshTokenDTO) {
+        return viewerService.logout(refreshTokenDTO);
+    }
+
     @GetMapping("/idCheck")
     public ResponseEntity idCheck(@RequestParam("ID") String ID) {
         return viewerService.idCheck(ID);
@@ -39,8 +45,9 @@ public class ViewerController {
 
     @PostMapping("/changePW")
     public ResponseEntity changePW(Authentication authentication,
-                                   @RequestParam("PW") String pw) {
+                                   @RequestParam("password") String pw) {
         String id = authentication.getName();
+        System.out.println();
         return viewerService.changePW(id,pw);
     }
 }

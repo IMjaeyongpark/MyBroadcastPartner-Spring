@@ -1,5 +1,6 @@
 package Debug.LSM.service;
 
+import Debug.LSM.DTO.RefreshTokenDTO;
 import Debug.LSM.DTO.ViewerLoginResponseDTO;
 import Debug.LSM.domain.RefreshTokenEntity;
 import Debug.LSM.domain.Viewer;
@@ -82,6 +83,7 @@ public class ViewerService {
 
     }
 
+    //아이디 중복확인
     public ResponseEntity idCheck(String ID) {
         Viewer tmp = new Viewer();
         tmp.setId(ID);
@@ -94,6 +96,7 @@ public class ViewerService {
 
     }
 
+    //사용자 비밀번호 변경
     public ResponseEntity changePW(String id, String pw) {
         Optional<Viewer> viewerOP = viewerRepository.findById(id);
         if(viewerOP.isPresent()){
@@ -104,5 +107,14 @@ public class ViewerService {
         }else {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    //로그아웃
+    public ResponseEntity logout(RefreshTokenDTO refreshTokenDTO) {
+        ViewerRefreshTokenEntity viewerRefreshToken = viewerRefreshTokenRepositoty
+                .findOneByRefreshToken(refreshTokenDTO.getRefreshToken());
+        if (viewerRefreshToken == null) return ResponseEntity.ok().build();
+        viewerRefreshTokenRepositoty.delete(viewerRefreshToken);
+        return ResponseEntity.ok().build();
     }
 }
