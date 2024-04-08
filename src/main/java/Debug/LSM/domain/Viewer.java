@@ -19,11 +19,11 @@ public class Viewer {
     @Id
     private String id;
     private String pw;
-    private String name;
+    private String Name;
     private String birth;
     private boolean sex;
     @Email
-    private String email;
+    private String _id;
 
 
 }
