@@ -32,7 +32,7 @@ class LsmApplicationTests {
             testViewer.setSex(true);
             testViewer.setName("testUser" + i);
             testViewer.setBirth("testBirth" + i);
-            testViewer.setEmail("testEmail" + i + "@test.com");
+            testViewer.set_id("testEmail" + i + "@test.com");
             viewerRepository.save(testViewer);
         }
     }
