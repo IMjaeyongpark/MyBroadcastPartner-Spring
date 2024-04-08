@@ -53,11 +53,13 @@ public class ViewerService {
 
         try {
 
-            Viewer viewer = viewerRepository.findById(ID).get();
-            if (!viewer.getPw().equals(password)) {
+            Optional<Viewer> OPviewer = viewerRepository.findById(ID);
+            if (!OPviewer.isPresent() || !OPviewer.get().getPw().equals(password)) {
                 System.out.println("password no!");
                 return ResponseEntity.ok(null);
             }
+
+            Viewer viewer = OPviewer.get();
             //accessToken,refreshToken 생성
             String accessToken = JwtUtil.creatAccessToken(ID, secretKey, accessTokenExpiredMs);
             String refreshToken = JwtUtil.createRefreshToken(secretKey, refreshTokenExpiredMs);
