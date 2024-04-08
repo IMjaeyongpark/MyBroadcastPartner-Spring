@@ -20,11 +20,11 @@ public class User {
     //사용자 Email
     private String email;
 
-    private String Name;
+    private String name;
 
-    private String Picture;
+    private String picture;
 
-    private String Channels_Id;
+    private String channels_Id;
     private String class_name;
     private LocalDateTime date;
 }

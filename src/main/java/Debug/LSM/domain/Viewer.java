@@ -19,7 +19,7 @@ public class Viewer {
     @Id
     private String id;
     private String pw;
-    private String Name;
+    private String name;
     private String birth;
     private boolean sex;
     @Email

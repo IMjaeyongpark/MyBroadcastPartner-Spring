@@ -74,8 +74,8 @@ public class UserService {
         String subject = new String(decoder.decode(token));
         JSONObject payload = new JSONObject(subject);
         //값 가져오기
-        User user = User.builder().Name(payload.getString("name"))
-                .email(payload.getString("email")).Picture(payload.getString("picture")).build();
+        User user = User.builder().name(payload.getString("name"))
+                .email(payload.getString("email")).picture(payload.getString("picture")).build();
 
         User u = user_repository.findOneByEmail(payload.getString("email"));
         if (u == null || u.getDate() == null || u.getDate().isBefore(LocalDateTime.now())) {
