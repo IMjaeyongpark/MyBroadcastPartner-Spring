@@ -28,7 +28,7 @@ public class BroadCastController {
                                                  @RequestParam("URI") String URI) {
 
         User user = new User();
-        user.set_id(authentication.getName());
+        user.setEmail(authentication.getName());
 
         //URI에서 BCID추출
         String[] URIs = URI.split("https://");
@@ -59,7 +59,7 @@ public class BroadCastController {
                                    @RequestParam("BCID") String BCID,
                                    @RequestParam("name") String name,
                                    @RequestBody Chat chat) {
-        ChatDTO chatDTO = ChatDTO.builder().user(User.builder()._id(authentication.getName()).build())
+        ChatDTO chatDTO = ChatDTO.builder().user(User.builder().email(authentication.getName()).build())
                 .BCID(BCID).name(name).chat(chat).build();
         return broadCastService.saveChat(chatDTO);
     }

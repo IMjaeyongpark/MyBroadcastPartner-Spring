@@ -33,7 +33,7 @@ public class PayController {
     public ResponseEntity saveClass(Authentication authentication,
                                     @RequestBody PurchaseHistoryDTO purchaseHistoryDTO) {
 
-        User user = User.builder()._id(authentication.getName()).build();
+        User user = User.builder().email(authentication.getName()).build();
         purchaseHistoryDTO.setUser(user);
 
         return payService.saveClass(purchaseHistoryDTO);

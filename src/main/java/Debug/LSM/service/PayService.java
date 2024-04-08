@@ -29,7 +29,7 @@ public class PayService {
     public ResponseEntity saveClass(PurchaseHistoryDTO purchaseHistoryDTO) {
 
         try {
-            User user = userRepository.findOneBy_id(purchaseHistoryDTO.getUser().get_id());
+            User user = userRepository.findOneByEmail(purchaseHistoryDTO.getUser().getEmail());
 
             Purchase_History purchaseHistory = purchaseHistoryDTO.toEntity();
 
@@ -48,7 +48,7 @@ public class PayService {
 
     //결제정보 가져오기
     public ResponseEntity<List<Purchase_History>> getPurchaseHistory(String email) {
-        List<Purchase_History> list = purchaseHistoryRepository.findByUser(User.builder()._id(email).build());
+        List<Purchase_History> list = purchaseHistoryRepository.findByUser(User.builder().email(email).build());
         Collections.reverse(list);
         return ResponseEntity.ok(list);
     }

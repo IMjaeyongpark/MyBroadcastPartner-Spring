@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
-import lombok.Getter;
 import lombok.Setter;
 
 
@@ -25,7 +24,7 @@ public class Viewer {
     private boolean sex;
     @Email
     @Column(name = "email")
-    private String _id;
+    private String email;
 
 
 }

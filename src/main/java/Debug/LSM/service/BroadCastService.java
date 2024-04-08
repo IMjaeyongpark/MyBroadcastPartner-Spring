@@ -119,11 +119,11 @@ public class BroadCastService {
         User user = chatDTO.getUser();
         List<YearTotalData> yearList = yearRepositoy.findByUser(chatDTO.getUser());
         YearTotalData yearTotalData = new YearTotalData();
-        yearTotalData.set_id(date[0] + user.get_id());
+        yearTotalData.set_id(date[0] + user.getEmail());
         yearTotalData.setUser(user);
         LocalDate now = LocalDate.now();
 
-        String cury = now.getYear() + user.get_id();
+        String cury = now.getYear() + user.getEmail();
 
         for (int i = 0; i < yearList.size(); i++) {
             if (yearList.get(i).get_id().equals(cury)) {

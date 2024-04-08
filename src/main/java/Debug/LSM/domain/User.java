@@ -1,5 +1,6 @@
 package Debug.LSM.domain;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -17,7 +18,7 @@ public class User {
     @Id
     @Email
     //사용자 Email
-    private String _id;
+    private String email;
 
     private String Name;
 

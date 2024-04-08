@@ -2,9 +2,7 @@ package Debug.LSM.service;
 
 import Debug.LSM.DTO.LoginResponseDTO;
 import Debug.LSM.DTO.RefreshTokenDTO;
-import Debug.LSM.DTO.ViewerLoginResponseDTO;
 import Debug.LSM.domain.RefreshTokenEntity;
-import Debug.LSM.domain.Viewer;
 import Debug.LSM.repository.RefreshTokenRepository;
 import Debug.LSM.repository.UserRepository;
 import Debug.LSM.repository.ViewerRepository;
@@ -77,9 +75,9 @@ public class UserService {
         JSONObject payload = new JSONObject(subject);
         //값 가져오기
         User user = User.builder().Name(payload.getString("name"))
-                ._id(payload.getString("email")).Picture(payload.getString("picture")).build();
+                .email(payload.getString("email")).Picture(payload.getString("picture")).build();
 
-        User u = user_repository.findOneBy_id(payload.getString("email"));
+        User u = user_repository.findOneByEmail(payload.getString("email"));
         if (u == null || u.getDate() == null || u.getDate().isBefore(LocalDateTime.now())) {
             user.setClass_name("basic");
             user.setDate(null);
@@ -90,7 +88,7 @@ public class UserService {
         user_repository.save(user);
 
         //accessToken,refreshToken 생성
-        String accessToken = JwtUtil.creatAccessToken(user.get_id(), secretKey, accessTokenExpiredMs);
+        String accessToken = JwtUtil.creatAccessToken(user.getEmail(), secretKey, accessTokenExpiredMs);
         String refreshToken = JwtUtil.createRefreshToken(secretKey, refreshTokenExpiredMs);
 
         LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder()
@@ -99,7 +97,7 @@ public class UserService {
                 .user(user).build();
 
         RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.builder()
-                ._id(user.get_id())
+                ._id(user.getEmail())
                 .refreshToken(refreshToken).build();
 
         refreshTokenRepository.save(refreshTokenEntity);
@@ -144,8 +142,8 @@ public class UserService {
     public ResponseEntity<LoginResponseDTO> refreshToken(RefreshTokenDTO refreshTokenDTO) {
         RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findOneByRefreshToken(refreshTokenDTO.getRefreshToken());
         if (refreshTokenEntity == null) return ResponseEntity.badRequest().build();
-        User user = user_repository.findOneBy_id(refreshTokenEntity.get_id());
-        String accessToken = JwtUtil.creatAccessToken(user.get_id(), secretKey, accessTokenExpiredMs);
+        User user = user_repository.findOneByEmail(refreshTokenEntity.get_id());
+        String accessToken = JwtUtil.creatAccessToken(user.getEmail(), secretKey, accessTokenExpiredMs);
 
         LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder()
                 .accessToken(accessToken)

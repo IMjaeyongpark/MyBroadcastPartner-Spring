@@ -1,7 +1,6 @@
 package Debug.LSM.controller;
 
 import Debug.LSM.service.MyPageService;
-import Debug.LSM.DTO.MypageDTO;
 import Debug.LSM.domain.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,7 +21,7 @@ public class MyPageController {
     @GetMapping("/getInfo")
     public ResponseEntity mypage(Authentication authentication) {
 
-        User user = User.builder()._id(authentication.getName()).build();
+        User user = User.builder().email(authentication.getName()).build();
         return myPageService.mypageData(user);
     }
 }

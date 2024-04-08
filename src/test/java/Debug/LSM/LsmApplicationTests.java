@@ -2,11 +2,9 @@ package Debug.LSM;
 
 import Debug.LSM.domain.Viewer;
 import Debug.LSM.repository.ViewerRepository;
-import org.apache.coyote.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 
 @SpringBootTest
 class LsmApplicationTests {
@@ -32,7 +30,7 @@ class LsmApplicationTests {
             testViewer.setSex(true);
             testViewer.setName("testUser" + i);
             testViewer.setBirth("testBirth" + i);
-            testViewer.set_id("testEmail" + i + "@test.com");
+            testViewer.setEmail("testEmail" + i + "@test.com");
             viewerRepository.save(testViewer);
         }
     }
