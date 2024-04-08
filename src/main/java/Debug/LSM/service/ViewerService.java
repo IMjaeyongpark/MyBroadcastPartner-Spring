@@ -85,12 +85,16 @@ public class ViewerService {
 
     //아이디 중복확인
     public ResponseEntity idCheck(String ID) {
-        Viewer tmp = new Viewer();
-        tmp.setId(ID);
-        Optional<Viewer> viewer = viewerRepository.findById(ID);
-        if (!viewer.isPresent()) {
-            return ResponseEntity.ok().build();
-        } else {
+        try {
+            Viewer tmp = new Viewer();
+            tmp.setId(ID);
+            Optional<Viewer> viewer = viewerRepository.findById(ID);
+            if (!viewer.isPresent()) {
+                return ResponseEntity.ok(true);
+            } else {
+                return ResponseEntity.ok(false);
+            }
+        }catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
 

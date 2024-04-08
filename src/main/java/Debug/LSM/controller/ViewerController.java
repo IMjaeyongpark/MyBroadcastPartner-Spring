@@ -39,7 +39,7 @@ public class ViewerController {
     }
 
     @GetMapping("/idCheck")
-    public ResponseEntity idCheck(@RequestParam("ID") String ID) {
+    public ResponseEntity<Boolean> idCheck(@RequestParam("ID") String ID) {
         return viewerService.idCheck(ID);
     }
 
