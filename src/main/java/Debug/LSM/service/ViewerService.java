@@ -2,7 +2,6 @@ package Debug.LSM.service;
 
 import Debug.LSM.DTO.RefreshTokenDTO;
 import Debug.LSM.DTO.ViewerLoginResponseDTO;
-import Debug.LSM.domain.RefreshTokenEntity;
 import Debug.LSM.domain.Viewer;
 import Debug.LSM.domain.ViewerRefreshTokenEntity;
 import Debug.LSM.repository.ViewerRefreshTokenRepositoty;
@@ -57,7 +56,7 @@ public class ViewerService {
             Viewer viewer = viewerRepository.findById(ID).get();
             if (!viewer.getPw().equals(password)) {
                 System.out.println("password no!");
-                return ResponseEntity.badRequest().build();
+                return ResponseEntity.ok(null);
             }
             //accessToken,refreshToken 생성
             String accessToken = JwtUtil.creatAccessToken(ID, secretKey, accessTokenExpiredMs);
@@ -66,7 +65,7 @@ public class ViewerService {
             ViewerLoginResponseDTO viewerLoginResponseDTO = ViewerLoginResponseDTO.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
-                    .viwer(viewer).build();
+                    .viewer(viewer).build();
 
             ViewerRefreshTokenEntity viewerRefreshToken = new ViewerRefreshTokenEntity();
             viewerRefreshToken.setId(ID);

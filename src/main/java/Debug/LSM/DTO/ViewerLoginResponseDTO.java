@@ -9,5 +9,5 @@ import lombok.Getter;
 public class ViewerLoginResponseDTO {
     private String accessToken;
     private String refreshToken;
-    private Viewer viwer;
+    private Viewer viewer;
 }
