@@ -3,8 +3,8 @@ package Debug.LSM.service;
 
 import Debug.LSM.DTO.PurchaseHistoryDTO;
 import Debug.LSM.domain.Purchase_History;
-import Debug.LSM.repository.PurchaseHistoryRepository;
-import Debug.LSM.repository.UserRepository;
+import Debug.LSM.repository.mongoCBrepository.PurchaseHistoryRepository;
+import Debug.LSM.repository.mongoCBrepository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

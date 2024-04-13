@@ -2,12 +2,15 @@ package Debug.LSM.controller;
 
 
 import Debug.LSM.DTO.*;
+import Debug.LSM.domain.BlackList;
 import Debug.LSM.service.BroadCastService;
 import Debug.LSM.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -25,7 +28,7 @@ public class BroadCastController {
     //계정 맞는지 확인하는 인증 추가 예정
     @GetMapping("/identification")
     public ResponseEntity<BCIDDTO> identification(Authentication authentication,
-                                                 @RequestParam("URI") String URI) {
+                                                  @RequestParam("URI") String URI) {
 
         User user = new User();
         user.setEmail(authentication.getName());
@@ -79,9 +82,33 @@ public class BroadCastController {
         return broadCastService.getChat(BCID);
     }
 
-    @GetMapping("getTopic")
+    @GetMapping("/getTopic")
     public ResponseEntity<TopicDTO> getTopic(@RequestParam("BCID") String BCID) {
         return broadCastService.getTopic(BCID);
+    }
+
+    @PostMapping("/addBlackList")
+    public ResponseEntity addBlacklist(Authentication authentication,
+                                       @RequestParam("user_id") String user_id,
+                                       @RequestParam("platform") Integer platform) {
+        BlackList blackList = BlackList.builder().user_id(user_id)
+                .user(User.builder().email(authentication.getName()).build())
+                .platform(platform).build();
+        return broadCastService.addBlacklist(blackList);
+    }
+
+    @DeleteMapping("/removeBlackList")
+    public ResponseEntity removeBlackList(Authentication authentication,
+                                          @RequestParam("user_id") String user_id) {
+        BlackList blackList = BlackList.builder().user(User.builder().email(authentication.getName()).build())
+                .user_id(user_id).build();
+        return broadCastService.removeBlackList(blackList);
+    }
+
+    @GetMapping("/getBlackList")
+    public ResponseEntity<List<BlackList>> getBlackList(Authentication authentication) {
+
+        return broadCastService.getBlackList(authentication.getName());
     }
 
 

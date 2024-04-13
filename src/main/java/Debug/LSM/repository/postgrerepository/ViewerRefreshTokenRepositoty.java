@@ -1,7 +1,5 @@
-package Debug.LSM.repository;
+package Debug.LSM.repository.postgrerepository;
 
-import Debug.LSM.domain.RefreshTokenEntity;
-import Debug.LSM.domain.Viewer;
 import Debug.LSM.domain.ViewerRefreshTokenEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

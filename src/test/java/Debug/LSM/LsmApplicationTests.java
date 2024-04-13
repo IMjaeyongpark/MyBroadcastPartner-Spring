@@ -1,7 +1,7 @@
 package Debug.LSM;
 
 import Debug.LSM.domain.Viewer;
-import Debug.LSM.repository.ViewerRepository;
+import Debug.LSM.repository.postgrerepository.ViewerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,8 +1,8 @@
 package Debug.LSM.service;
 
 import Debug.LSM.DTO.MypageDTO;
-import Debug.LSM.repository.BroadCastRepository;
-import Debug.LSM.repository.YearRepositoy;
+import Debug.LSM.repository.mongoCBrepository.BroadCastRepository;
+import Debug.LSM.repository.mongoCBrepository.YearRepositoy;
 import Debug.LSM.domain.BroadCast;
 import Debug.LSM.domain.User;
 import Debug.LSM.domain.YearTotalData;

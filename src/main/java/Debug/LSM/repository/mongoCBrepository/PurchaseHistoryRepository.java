@@ -1,4 +1,4 @@
-package Debug.LSM.repository;
+package Debug.LSM.repository.mongoCBrepository;
 
 import Debug.LSM.domain.Purchase_History;
 import Debug.LSM.domain.User;

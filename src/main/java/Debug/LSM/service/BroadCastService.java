@@ -2,8 +2,8 @@ package Debug.LSM.service;
 
 
 import Debug.LSM.DTO.*;
-import Debug.LSM.repository.*;
 import Debug.LSM.domain.*;
+import Debug.LSM.repository.mongoCBrepository.*;
 import Debug.LSM.utils.YoutubeUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +35,7 @@ public class BroadCastService {
     private final AuthorRepositoy authorRepositoy;
     private final AfreecaTV_BroadCastRepository afreecaTVBroadCastRepository;
     private final Chzzk_BroadCastRepository chzzkBroadCastRepository;
+    private final BlackListRepository blackListRepository;
 
 
     @Autowired
@@ -42,12 +43,14 @@ public class BroadCastService {
                             YearRepositoy yearRepositoy,
                             AuthorRepositoy authorRepositoy,
                             AfreecaTV_BroadCastRepository afreecaTVBroadCastRepository,
-                            Chzzk_BroadCastRepository chzzkBroadCastRepository) {
+                            Chzzk_BroadCastRepository chzzkBroadCastRepository,
+                            BlackListRepository blackListRepository) {
         this.broadCastRepository = broadCastRepository;
         this.yearRepositoy = yearRepositoy;
         this.authorRepositoy = authorRepositoy;
         this.afreecaTVBroadCastRepository = afreecaTVBroadCastRepository;
         this.chzzkBroadCastRepository = chzzkBroadCastRepository;
+        this.blackListRepository = blackListRepository;
     }
 
     //방송정보 저장, 있으면 반환
@@ -273,4 +276,34 @@ public class BroadCastService {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    public ResponseEntity addBlacklist(BlackList blackList) {
+
+        try {
+            blackListRepository.save(blackList);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    public ResponseEntity removeBlackList(BlackList blackList) {
+        try {
+            blackListRepository.delete(blackList);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    public ResponseEntity<List<BlackList>> getBlackList(String name) {
+        try {
+            List<BlackList> blackLists = blackListRepository.findByUser(User.builder().email(name).build());
+
+            return ResponseEntity.ok(blackLists);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }

@@ -7,6 +7,7 @@ import Debug.LSM.service.UserService;
 import Debug.LSM.service.ViewerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +22,9 @@ public class ViewerController {
 
     private final ViewerService viewerService;
 
-    @PostMapping("/new")
+    @PostMapping("/signup")
     public ResponseEntity newViewer(@RequestBody Viewer viewer) {
-        System.out.println(viewer.getId());
+
         return viewerService.newViewer(viewer);
     }
 
