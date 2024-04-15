@@ -2,12 +2,10 @@ package Debug.LSM.controller;
 
 import Debug.LSM.DTO.RefreshTokenDTO;
 import Debug.LSM.DTO.ViewerLoginResponseDTO;
-import Debug.LSM.domain.Viewer;
-import Debug.LSM.service.UserService;
+import Debug.LSM.DTO.ViewersignupDTO;
 import Debug.LSM.service.ViewerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +21,9 @@ public class ViewerController {
     private final ViewerService viewerService;
 
     @PostMapping("/signup")
-    public ResponseEntity newViewer(@RequestBody Viewer viewer) {
+    public ResponseEntity newViewer(@RequestBody ViewersignupDTO form) {
 
-        return viewerService.newViewer(viewer);
+        return viewerService.signup(form);
     }
 
     @GetMapping("/login")

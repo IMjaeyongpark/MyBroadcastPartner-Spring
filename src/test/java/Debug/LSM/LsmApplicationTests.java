@@ -1,7 +1,7 @@
 package Debug.LSM;
 
-import Debug.LSM.domain.Viewer;
-import Debug.LSM.repository.postgrerepository.ViewerRepository;
+import Debug.LSM.DTO.ViewersignupDTO;
+import Debug.LSM.service.ViewerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,12 +10,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 class LsmApplicationTests {
 
 
-    private final ViewerRepository viewerRepository;
+
+    private final ViewerService viewerService;
 
     @Autowired
-    public LsmApplicationTests(ViewerRepository viewerRepository) {
-        this.viewerRepository = viewerRepository;
+    public LsmApplicationTests(ViewerService viewerService) {
+        this.viewerService = viewerService;
     }
+
 
     @Test
     void contextLoads() {
@@ -24,14 +26,14 @@ class LsmApplicationTests {
     @Test
     public void newViewertest() {
         for (int i = 0; i < 10; i++) {
-            Viewer testViewer = new Viewer();
+            ViewersignupDTO testViewer = new ViewersignupDTO();
             testViewer.setId("testViewer" + i);
             testViewer.setPw("testPWD" + i);
             testViewer.setSex(true);
             testViewer.setName("testUser" + i);
             testViewer.setBirth("testBirth" + i);
             testViewer.setEmail("testEmail" + i + "@test.com");
-            viewerRepository.save(testViewer);
+            viewerService.signup(testViewer);
         }
     }
 

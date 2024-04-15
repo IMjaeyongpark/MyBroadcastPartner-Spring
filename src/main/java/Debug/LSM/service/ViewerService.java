@@ -2,6 +2,7 @@ package Debug.LSM.service;
 
 import Debug.LSM.DTO.RefreshTokenDTO;
 import Debug.LSM.DTO.ViewerLoginResponseDTO;
+import Debug.LSM.DTO.ViewersignupDTO;
 import Debug.LSM.domain.Viewer;
 import Debug.LSM.domain.ViewerRefreshTokenEntity;
 import Debug.LSM.repository.postgrerepository.ViewerRefreshTokenRepositoty;
@@ -10,6 +11,7 @@ import Debug.LSM.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,17 +32,28 @@ public class ViewerService {
     private final ViewerRepository viewerRepository;
     private final ViewerRefreshTokenRepositoty viewerRefreshTokenRepositoty;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
     public ViewerService(ViewerRepository viewerRepository,
-                         ViewerRefreshTokenRepositoty viewerRefreshTokenRepositoty) {
+                         ViewerRefreshTokenRepositoty viewerRefreshTokenRepositoty,
+                         PasswordEncoder passwordEncoder) {
         this.viewerRepository = viewerRepository;
         this.viewerRefreshTokenRepositoty = viewerRefreshTokenRepositoty;
+        this.passwordEncoder = passwordEncoder;
 
     }
 
     //시청자 회원가임
-    public ResponseEntity newViewer(Viewer viewer) {
+    public ResponseEntity signup(ViewersignupDTO form) {
         try {
+            Viewer viewer = Viewer.builder().id(form.getId())
+                    .pw(passwordEncoder.encode(form.getPw()))
+                    .name(form.getName())
+                    .birth(form.getBirth())
+                    .sex(form.isSex())
+                    .email(form.getEmail()).build();
+
             viewerRepository.save(viewer);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
@@ -54,29 +67,29 @@ public class ViewerService {
         try {
 
             Optional<Viewer> OPviewer = viewerRepository.findById(ID);
-            if (!OPviewer.isPresent() || !OPviewer.get().getPw().equals(password)) {
-                System.out.println("password no!");
-                return ResponseEntity.ok(null);
+            if (OPviewer.isPresent() && passwordEncoder.matches(password, OPviewer.get().getPw())) {
+
+                Viewer viewer = OPviewer.get();
+                //accessToken,refreshToken 생성
+                String accessToken = JwtUtil.creatAccessToken(ID, secretKey, accessTokenExpiredMs);
+                String refreshToken = JwtUtil.createRefreshToken(secretKey, refreshTokenExpiredMs);
+
+                ViewerLoginResponseDTO viewerLoginResponseDTO = ViewerLoginResponseDTO.builder()
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .viewer(viewer).build();
+
+                ViewerRefreshTokenEntity viewerRefreshToken = new ViewerRefreshTokenEntity();
+                viewerRefreshToken.setId(ID);
+                viewerRefreshToken.setRefreshToken(refreshToken);
+
+                viewerRefreshTokenRepositoty.save(viewerRefreshToken);
+
+
+                return ResponseEntity.ok(viewerLoginResponseDTO);
+            } else {
+                return ResponseEntity.ok().build();
             }
-
-            Viewer viewer = OPviewer.get();
-            //accessToken,refreshToken 생성
-            String accessToken = JwtUtil.creatAccessToken(ID, secretKey, accessTokenExpiredMs);
-            String refreshToken = JwtUtil.createRefreshToken(secretKey, refreshTokenExpiredMs);
-
-            ViewerLoginResponseDTO viewerLoginResponseDTO = ViewerLoginResponseDTO.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
-                    .viewer(viewer).build();
-
-            ViewerRefreshTokenEntity viewerRefreshToken = new ViewerRefreshTokenEntity();
-            viewerRefreshToken.setId(ID);
-            viewerRefreshToken.setRefreshToken(refreshToken);
-
-            viewerRefreshTokenRepositoty.save(viewerRefreshToken);
-
-
-            return ResponseEntity.ok(viewerLoginResponseDTO);
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -87,15 +100,14 @@ public class ViewerService {
     //아이디 중복확인
     public ResponseEntity idCheck(String ID) {
         try {
-            Viewer tmp = new Viewer();
-            tmp.setId(ID);
+            Viewer tmp = Viewer.builder().id(ID).build();
             Optional<Viewer> viewer = viewerRepository.findById(ID);
             if (!viewer.isPresent()) {
                 return ResponseEntity.ok(true);
             } else {
                 return ResponseEntity.ok(false);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -104,12 +116,12 @@ public class ViewerService {
     //사용자 비밀번호 변경
     public ResponseEntity changePW(String id, String pw) {
         Optional<Viewer> viewerOP = viewerRepository.findById(id);
-        if(viewerOP.isPresent()){
+        if (viewerOP.isPresent()) {
             Viewer viewer = viewerOP.get();
-            viewer.setPw(pw);
+            viewer.setPw(passwordEncoder.encode(pw));
             viewerRepository.save(viewer);
             return ResponseEntity.ok().build();
-        }else {
+        } else {
             return ResponseEntity.badRequest().build();
         }
     }
