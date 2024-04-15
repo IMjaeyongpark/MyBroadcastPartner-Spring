@@ -47,12 +47,13 @@ public class ViewerService {
     //시청자 회원가임
     public ResponseEntity signup(ViewersignupDTO form) {
         try {
-            Viewer viewer = Viewer.builder().id(form.getId())
-                    .pw(passwordEncoder.encode(form.getPw()))
-                    .name(form.getName())
-                    .birth(form.getBirth())
-                    .sex(form.isSex())
-                    .email(form.getEmail()).build();
+            Viewer viewer = new Viewer();
+            viewer.setId(form.getId());
+            viewer.setPw(passwordEncoder.encode(form.getPw()));
+            viewer.setName(form.getName());
+            viewer.setBirth(form.getBirth());
+            viewer.setSex(form.isSex());
+            viewer.setEmail(form.getEmail());
 
             viewerRepository.save(viewer);
             return ResponseEntity.ok().build();
@@ -100,7 +101,7 @@ public class ViewerService {
     //아이디 중복확인
     public ResponseEntity idCheck(String ID) {
         try {
-            Viewer tmp = Viewer.builder().id(ID).build();
+
             Optional<Viewer> viewer = viewerRepository.findById(ID);
             if (!viewer.isPresent()) {
                 return ResponseEntity.ok(true);

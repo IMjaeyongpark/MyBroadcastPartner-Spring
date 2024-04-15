@@ -15,7 +15,6 @@ import lombok.Setter;
 @Table (name = "viewer")
 @Data
 @Setter
-@Builder
 public class Viewer {
 
     @Id
