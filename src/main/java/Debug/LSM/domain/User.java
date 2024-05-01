@@ -27,4 +27,6 @@ public class User {
     private String channels_Id;
     private String class_name;
     private LocalDateTime date;
+
+    private int[] category;
 }

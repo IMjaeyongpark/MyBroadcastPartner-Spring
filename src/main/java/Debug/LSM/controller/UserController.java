@@ -57,11 +57,6 @@ public class UserController {
         return userService.refreshToken(refreshTokenDTO);
     }
 
-    @GetMapping("/google")
-    public void google(@RequestParam("access_token") String access_token) {
-        System.out.println(access_token);
-        System.out.println(userService.google(access_token));
-    }
 
 
 }

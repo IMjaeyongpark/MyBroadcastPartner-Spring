@@ -13,6 +13,7 @@ public class ViewersignupDTO {
     private String name;
     private String birth;
     private boolean sex;
+    private int[] category;
     @Email
     private String email;
 }

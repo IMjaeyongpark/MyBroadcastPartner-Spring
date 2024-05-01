@@ -33,6 +33,8 @@ class LsmApplicationTests {
             testViewer.setName("testUser" + i);
             testViewer.setBirth("testBirth" + i);
             testViewer.setEmail("testEmail" + i + "@test.com");
+            int[] a = {12,3,4,5};
+            testViewer.setCategory(a);
             viewerService.signup(testViewer);
         }
     }

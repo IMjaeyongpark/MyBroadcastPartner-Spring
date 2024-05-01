@@ -24,4 +24,10 @@ public class MyPageController {
         User user = User.builder().email(authentication.getName()).build();
         return myPageService.mypageData(user);
     }
+
+    @PostMapping("/saveshorts")
+    public ResponseEntity saveShorts(Authentication authentication, String title){
+        User user = User.builder().email(authentication.getName()).build();
+        return myPageService.saveShorts(user,title);
+    }
 }

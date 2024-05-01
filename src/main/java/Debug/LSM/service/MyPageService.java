@@ -1,7 +1,9 @@
 package Debug.LSM.service;
 
 import Debug.LSM.DTO.MypageDTO;
+import Debug.LSM.domain.Shorts;
 import Debug.LSM.repository.mongoCBrepository.BroadCastRepository;
+import Debug.LSM.repository.mongoCBrepository.ShortsRepository;
 import Debug.LSM.repository.mongoCBrepository.YearRepositoy;
 import Debug.LSM.domain.BroadCast;
 import Debug.LSM.domain.User;
@@ -19,10 +21,13 @@ public class MyPageService {
 
     private final BroadCastRepository broadCastRepository;
     private final YearRepositoy yearRepositoy;
+    private final ShortsRepository shortsRepository;
 
-    public MyPageService(BroadCastRepository broadCastRepository, YearRepositoy yearRepositoy) {
+    public MyPageService(BroadCastRepository broadCastRepository, YearRepositoy yearRepositoy,
+                         ShortsRepository shortsRepository) {
         this.broadCastRepository = broadCastRepository;
         this.yearRepositoy = yearRepositoy;
+        this.shortsRepository = shortsRepository;
     }
 
     //방송 데이터 가져오기
@@ -36,8 +41,20 @@ public class MyPageService {
             MypageDTO mypageDTO = MypageDTO.builder().broadCasts(broadCasts).years(years).build();
 
             return ResponseEntity.ok(mypageDTO);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    public ResponseEntity saveShorts(User user, String title) {
+
+        try {
+            Shorts shorts = Shorts.builder().id(title).user(user).build();
+            shortsRepository.save(shorts);
+            return ResponseEntity.ok().build();
         }catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
     }
+
 }

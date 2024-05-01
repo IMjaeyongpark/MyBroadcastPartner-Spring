@@ -54,6 +54,7 @@ public class ViewerService {
             viewer.setBirth(form.getBirth());
             viewer.setSex(form.isSex());
             viewer.setEmail(form.getEmail());
+            viewer.setCategory(form.getCategory());
 
             viewerRepository.save(viewer);
             return ResponseEntity.ok().build();

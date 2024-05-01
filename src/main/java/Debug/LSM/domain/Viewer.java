@@ -23,6 +23,8 @@ public class Viewer {
     private String name;
     private String birth;
     private boolean sex;
+
+    private int[] category;
     @Email
     @Column(name = "email")
     private String email;
