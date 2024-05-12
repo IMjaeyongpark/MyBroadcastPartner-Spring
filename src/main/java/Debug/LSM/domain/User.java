@@ -1,6 +1,5 @@
 package Debug.LSM.domain;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -28,5 +27,5 @@ public class User {
     private String class_name;
     private LocalDateTime date;
 
-    private int[] category;
+    private Integer[] category;
 }

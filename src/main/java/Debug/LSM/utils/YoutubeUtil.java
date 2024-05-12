@@ -41,7 +41,7 @@ public class YoutubeUtil {
             Map<String, Object> jsonMap = new JSONObject(jsonString).toMap();
             Map<String, Object> items = (Map<String, Object>) jsonMap.get("items");
             Map<String, Object> snippet = (Map<String, Object>) items.get("snippet");
-            return (String) snippet.get("id");
+            return (String) snippet.get("customUrl");
         } catch (Exception e) {
             System.err.println("Error extracting channel ID: " + e.getMessage());
             return null;

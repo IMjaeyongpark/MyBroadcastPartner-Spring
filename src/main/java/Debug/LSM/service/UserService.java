@@ -7,6 +7,7 @@ import Debug.LSM.repository.mongoCBrepository.RefreshTokenRepository;
 import Debug.LSM.repository.mongoCBrepository.UserRepository;
 import Debug.LSM.repository.postgrerepository.ViewerRepository;
 import Debug.LSM.utils.JwtUtil;
+import Debug.LSM.utils.YoutubeUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,9 +43,6 @@ public class UserService {
     private final RefreshTokenRepository refreshTokenRepository;
 
 
-
-
-
     @Autowired
     public UserService(UserRepository user_repository, RefreshTokenRepository refreshTokenRepository,
                        ViewerRepository viewerRepository) {
@@ -69,7 +67,7 @@ public class UserService {
 
     //사용자 정보 가져오기
     public ResponseEntity<LoginResponseDTO> find_User(String token, String access_token) {
-        //String channels_Id = YoutubeUtil.getChannelId(access_token);
+        String channels_Id = YoutubeUtil.getChannelId(access_token);
         //바디 디코딩 후 json형태로 변환
         Base64.Decoder decoder = Base64.getUrlDecoder();
         String subject = new String(decoder.decode(token));
@@ -105,7 +103,6 @@ public class UserService {
 
         return ResponseEntity.ok(loginResponseDTO);
     }
-
 
 
     //구글 사용자 정보 가져오기
@@ -154,4 +151,11 @@ public class UserService {
         return ResponseEntity.ok(loginResponseDTO);
     }
 
+    public ResponseEntity saveCategory(String email, Integer[] category) {
+        User user = user_repository.findOneByEmail(email);
+        user.setCategory(category);
+        user_repository.save(user);
+        return ResponseEntity.ok().build();
+
+    }
 }

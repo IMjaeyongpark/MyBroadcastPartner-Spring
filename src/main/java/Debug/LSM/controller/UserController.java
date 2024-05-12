@@ -3,6 +3,7 @@ package Debug.LSM.controller;
 import Debug.LSM.DTO.LoginResponseDTO;
 import Debug.LSM.DTO.RefreshTokenDTO;
 import Debug.LSM.DTO.ViewerLoginResponseDTO;
+import Debug.LSM.domain.User;
 import Debug.LSM.domain.Viewer;
 import Debug.LSM.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,9 @@ public class UserController {
         return userService.refreshToken(refreshTokenDTO);
     }
 
-
-
+    @GetMapping("/saveCategory")
+    public ResponseEntity saveCategory(Authentication authentication, @RequestParam("category") Integer[] category) {
+        String email = authentication.getName();
+        return userService.saveCategory(email, category);
+    }
 }

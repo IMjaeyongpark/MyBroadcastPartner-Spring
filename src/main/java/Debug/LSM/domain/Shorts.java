@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 public class Shorts {
     @Id
-    String id;
+    private String id;
     @DBRef
     private User user;
 }
