@@ -1,5 +1,6 @@
 package Debug.LSM.utils;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -27,7 +28,6 @@ public class YoutubeUtil {
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             String jsonString = response.body();
-            System.out.println(jsonString);
             return extractChannelId(jsonString);
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
@@ -38,10 +38,20 @@ public class YoutubeUtil {
     //채널 아이디 추출
     public static String extractChannelId(String jsonString) {
         try {
-            Map<String, Object> jsonMap = new JSONObject(jsonString).toMap();
-            Map<String, Object> items = (Map<String, Object>) jsonMap.get("items");
-            Map<String, Object> snippet = (Map<String, Object>) items.get("snippet");
-            return (String) snippet.get("customUrl");
+            // JSON 문자열을 JSONObject로 파싱
+            JSONObject jsonObject = new JSONObject(jsonString);
+
+            // 'items' 배열 접근
+            JSONArray itemsArray = jsonObject.getJSONArray("items");
+
+            // 배열의 첫 번째 요소를 JSONObject로 가져옴
+            JSONObject firstItem = itemsArray.getJSONObject(0);
+
+            // 'snippet' 오브젝트 접근
+            JSONObject snippet = firstItem.getJSONObject("snippet");
+
+            // 'customUrl' 필드의 값을 추출하여 반환
+            return snippet.getString("customUrl");
         } catch (Exception e) {
             System.err.println("Error extracting channel ID: " + e.getMessage());
             return null;
