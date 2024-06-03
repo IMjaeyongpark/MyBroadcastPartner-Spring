@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin("*")
@@ -48,6 +50,13 @@ public class UserController {
         return userService.find_User(payload, access_token);
     }
 
+    @GetMapping("/reget")
+    public ResponseEntity<User> reget(Authentication authentication){
+        String email = authentication.getName();
+        return userService.reget(email);
+    }
+
+
     @DeleteMapping("/logout")
     public ResponseEntity logout(@RequestBody RefreshTokenDTO refreshTokenDTO) {
         return userService.logout(refreshTokenDTO);
@@ -63,4 +72,11 @@ public class UserController {
         String email = authentication.getName();
         return userService.saveCategory(email, category);
     }
+
+    @PostMapping ("/saveImage")
+    public ResponseEntity saveImage(Authentication authentication, @RequestParam("values") String[] values){
+        String email = authentication.getName();
+        return userService.saveImage(email, values);
+    }
+
 }

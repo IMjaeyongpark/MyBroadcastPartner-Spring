@@ -158,4 +158,24 @@ public class UserService {
         return ResponseEntity.ok().build();
 
     }
+
+    public ResponseEntity saveImage(String email, String[] values) {
+        try{
+            User tmpuser = user_repository.findOneByEmail(email);
+            tmpuser.setImage(values);
+            user_repository.save(tmpuser);
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    public ResponseEntity<User> reget(String email) {
+        try {
+            User user = user_repository.findOneByEmail(email);
+            return ResponseEntity.ok(user);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

@@ -28,4 +28,6 @@ public class User {
     private LocalDateTime date;
 
     private Integer[] category;
+
+    private String[] image;
 }
