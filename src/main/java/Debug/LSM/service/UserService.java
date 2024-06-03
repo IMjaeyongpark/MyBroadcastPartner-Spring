@@ -32,7 +32,7 @@ public class UserService {
     private String secretKey;
 
     //30분
-    private Long accessTokenExpiredMs = 1000 * 60 * 30L;
+    private Long accessTokenExpiredMs = 1000 * 60 * 60 * 30L;
 
     //1일
     private Long refreshTokenExpiredMs = 1000 * 60 * 60 * 24L;

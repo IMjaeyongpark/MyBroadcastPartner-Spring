@@ -22,7 +22,6 @@ public class ViewerController {
 
     @PostMapping("/signup")
     public ResponseEntity newViewer(@RequestBody ViewersignupDTO form) {
-
         return viewerService.signup(form);
     }
 
