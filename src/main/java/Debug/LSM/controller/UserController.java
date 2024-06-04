@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -68,13 +69,13 @@ public class UserController {
     }
 
     @GetMapping("/saveCategory")
-    public ResponseEntity saveCategory(Authentication authentication, @RequestParam("category") Integer[] category) {
+    public ResponseEntity saveCategory(Authentication authentication, @RequestParam("category") List<Integer> category) {
         String email = authentication.getName();
         return userService.saveCategory(email, category);
     }
 
     @PostMapping ("/saveImage")
-    public ResponseEntity saveImage(Authentication authentication, @RequestParam("values") String[] values){
+    public ResponseEntity saveImage(Authentication authentication, @RequestParam("values") List<String> values){
         String email = authentication.getName();
         return userService.saveImage(email, values);
     }

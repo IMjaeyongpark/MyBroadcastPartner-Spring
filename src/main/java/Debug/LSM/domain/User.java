@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Document(collection = "Users")
 @Getter
@@ -27,7 +28,7 @@ public class User {
     private String class_name;
     private LocalDateTime date;
 
-    private Integer[] category;
+    private List<Integer> category;
 
-    private String[] image;
+    private List<String> image;
 }

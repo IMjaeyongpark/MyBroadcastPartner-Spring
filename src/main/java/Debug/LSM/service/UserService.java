@@ -23,6 +23,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.List;
 
 @Service
 @Transactional
@@ -151,7 +152,7 @@ public class UserService {
         return ResponseEntity.ok(loginResponseDTO);
     }
 
-    public ResponseEntity saveCategory(String email, Integer[] category) {
+    public ResponseEntity saveCategory(String email, List<Integer> category) {
         User user = user_repository.findOneByEmail(email);
         user.setCategory(category);
         user_repository.save(user);
@@ -159,7 +160,7 @@ public class UserService {
 
     }
 
-    public ResponseEntity saveImage(String email, String[] values) {
+    public ResponseEntity saveImage(String email, List<String> values) {
         try{
             User tmpuser = user_repository.findOneByEmail(email);
             tmpuser.setImage(values);
