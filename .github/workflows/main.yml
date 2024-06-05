@@ -62,6 +62,15 @@ jobs:
       - name: Copy War
         run: cp ./build/libs/*.war ./deploy/war
 
+      - name: Make Directory for Scripts
+        run: mkdir -p deploy/scripts
+
+      - name: Copy Scripts
+        run: cp -r scripts/* deploy/scripts/
+
+      - name: Copy AppSpec
+        run: cp appspec.yml deploy/
+
       - name: Archive debug_back
         run: tar cvfz ./debug_back.tar.gz ./deploy
 
