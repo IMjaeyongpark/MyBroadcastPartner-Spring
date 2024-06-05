@@ -78,14 +78,18 @@ public class UserService {
                 .email(payload.getString("email")).picture(payload.getString("picture")).channels_Id(channels_Id).build();
 
         User u = user_repository.findOneByEmail(payload.getString("email"));
+
+        if(u != null){
+            user.setImage(u.getImage());
+            user.setCategory(u.getCategory());
+        }
+
         if (u == null || u.getDate() == null || u.getDate().isBefore(LocalDateTime.now())) {
             user.setClass_name("basic");
             user.setDate(null);
         } else {
             user.setClass_name(u.getClass_name());
             user.setDate(u.getDate());
-            user.setImage(u.getImage());
-            user.setCategory(u.getCategory());
         }
         user_repository.save(user);
 
