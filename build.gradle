@@ -44,7 +44,7 @@ tasks.named('test') {
 }
 
 bootWar {
-	enabled = false
+	enabled = true
 }
 
 bootJar {
