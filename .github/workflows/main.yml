@@ -23,8 +23,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew clean build
+      - name: Build Jar with Gradle
+        run: ./gradlew clean bootJar
 
       - name: Verify Jar File Exists
         run: |
@@ -35,14 +35,35 @@ jobs:
             exit 1
           fi
 
-      - name: Make Directory
-        run: mkdir -p deploy
+      - name: Make Directory for Jar
+        run: mkdir -p deploy/jar
 
       - name: Copy Jar
-        run: cp ./build/libs/*.jar ./deploy
+        run: cp ./build/libs/*.jar ./deploy/jar
+
+      - name: Clean for War Build
+        run: ./gradlew clean
+
+      - name: Build War with Gradle
+        run: ./gradlew bootWar
+
+      - name: Verify War File Exists
+        run: |
+          if ls ./build/libs/*.war 1> /dev/null 2>&1; then
+            echo "War file exists."
+          else
+            echo "War file does not exist."
+            exit 1
+          fi
+
+      - name: Make Directory for War
+        run: mkdir -p deploy/war
+
+      - name: Copy War
+        run: cp ./build/libs/*.war ./deploy/war
 
       - name: Archive debug_back
-        run: tar cvfz ./debug_back.tar.gz *
+        run: tar cvfz ./debug_back.tar.gz ./deploy
 
       - name: AWS Configure Credentials
         uses: aws-actions/configure-aws-credentials@v1
