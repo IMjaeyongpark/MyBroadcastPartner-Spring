@@ -84,6 +84,8 @@ public class UserService {
         } else {
             user.setClass_name(u.getClass_name());
             user.setDate(u.getDate());
+            user.setImage(u.getImage());
+            user.setCategory(u.getCategory());
         }
         user_repository.save(user);
 
