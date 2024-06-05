@@ -73,7 +73,7 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./debug_back.tar.gz s3://lsmaback/archive/
+        run: aws s3 cp --region ap-northeast-2 ./debug_back.tar.gz s3://lsmback/archive/
 
       - name: Deploy with AWS CodeDeploy
         run: aws deploy create-deployment \
