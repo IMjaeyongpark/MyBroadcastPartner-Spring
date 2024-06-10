@@ -36,9 +36,11 @@ public class BroadCastController {
         //URI에서 BCID추출
         String[] URIs = URI.split("https://");
         BCIDDTO bcid = new BCIDDTO();
-
+        System.out.println(URIs.length);
+        System.out.println(URI);
 
         for (int i = 0; i < URIs.length; i++) {
+            System.out.println(URIs[i]);
             if (URIs[i].contains("youtube.com")) {
                 String tmp = URIs[i].replace("https://", "").replace("www.", "")
                         .replace("youtube.com/watch?v=", "");

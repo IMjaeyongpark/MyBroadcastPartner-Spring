@@ -84,29 +84,32 @@ public class BroadCastService {
         }
 
 
-        try {
-            //유튜브 데이터 가져오기
-            JSONObject json = YoutubeUtil.getYouTubeBCData(BCID.getYoutubeBCID(), youtubeAPIKey);
-            if (json == null) return ResponseEntity.badRequest().build();
-            //방송정보 담기
-            BroadCast BC = BroadCast.builder()._id(BCID.getYoutubeBCID()).URI(BCID.getYoutubeBCID()).Title(json.getString("title")).
-                    ThumbnailsUrl(json.getJSONObject("thumbnails").getJSONObject("default").getString("url")).
-                    user(user).published(json.getString("publishedAt")).build();
+        if (BCID.getYoutubeBCID() != null) {
             try {
-                BroadCast TMP = broadCastRepository.findOneBy_id(BC.get_id());
-                if (TMP != null) {
+                //유튜브 데이터 가져오기
+                JSONObject json = YoutubeUtil.getYouTubeBCData(BCID.getYoutubeBCID(), youtubeAPIKey);
+                if (json == null) return ResponseEntity.badRequest().build();
+                //방송정보 담기
+                BroadCast BC = BroadCast.builder()._id(BCID.getYoutubeBCID()).URI(BCID.getYoutubeBCID()).Title(json.getString("title")).
+                        ThumbnailsUrl(json.getJSONObject("thumbnails").getJSONObject("default").getString("url")).
+                        user(user).published(json.getString("publishedAt")).build();
+                try {
+                    BroadCast TMP = broadCastRepository.findOneBy_id(BC.get_id());
+                    if (TMP != null) {
+                        return ResponseEntity.ok(BCID);
+                    }
+                    broadCastRepository.save(BC);
                     return ResponseEntity.ok(BCID);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    return ResponseEntity.badRequest().build();
                 }
-                broadCastRepository.save(BC);
-                return ResponseEntity.ok(BCID);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return ResponseEntity.badRequest().build();
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().build();
         }
+        return ResponseEntity.ok(BCID);
     }
 
     //채팅 데이터 저장
