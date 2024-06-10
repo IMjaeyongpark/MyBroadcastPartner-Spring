@@ -44,10 +44,12 @@ public class BroadCastController {
                         .replace("youtube.com/watch?v=", "");
                 bcid.setYoutubeBCID(tmp);
             } else if (URIs[i].contains("chzzk.naver.com")) {
-                String tmp = URIs[i].replace("chzzk.naver.com/live/", "");
+                String tmp = URIs[i].replace("https://", "").replace("www.", "")
+                        .replace("chzzk.naver.com/live/", "");
                 bcid.setChzzk(tmp);
             } else if (URIs[i].contains("play.afreecatv.com")) {
-                String[] tmp = URIs[i].split("/");
+                String[] tmp = URIs[i].replace("https://", "").replace("www.", "")
+                        .split("/");
                 bcid.setAfreecaBID(tmp[1]);
                 bcid.setAfreecaBNO(tmp[2]);
             }
