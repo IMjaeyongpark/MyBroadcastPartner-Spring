@@ -23,6 +23,11 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Create application.properties
+        run: |
+             mkdir -p src/main/resources
+             echo "${{ secrets.properties }}" > src/main/resources/application.properties
+
       - name: Build Jar with Gradle
         run: ./gradlew clean bootJar
 
