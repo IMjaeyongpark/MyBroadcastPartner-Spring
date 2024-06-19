@@ -74,8 +74,7 @@ class LsmApplicationTests {
 
     @Test
     public void deletetmp() {
-        broadCastRepository.findByUser(User.builder().email("dbsruaqls123@gmail.com").build());
-        List<BroadCast> br = broadCastRepository.findByUser(User.builder().email("qkrodyd306@gmail.com").build());
+        List<BroadCast> br = broadCastRepository.findByUser(User.builder().email("dbsruaqls123@gmail.com").build());
         for (int i = 0; i < br.size(); i++) {
             BroadCast tmp = br.get(i);
             if (Arrays.stream(tmp.All_Emotion3).sum() < 10) {
