@@ -89,8 +89,8 @@ public class BroadCastService {
         if (BCID.getYoutubeBCID() != null) {
             try {
                 //유튜브 데이터 가져오기
-                JSONObject json = YoutubeUtil.getYouTubeBCData(BCID.getYoutubeBCID(), youtubeAPIKey);
-                if (json == null) return ResponseEntity.badRequest().build();
+               // JSONObject json = YoutubeUtil.getYouTubeBCData(BCID.getYoutubeBCID(), youtubeAPIKey);
+                //if (json == null) return ResponseEntity.badRequest().build();
                 //방송정보 담기
 //                BroadCast BC = BroadCast.builder()._id(BCID.getYoutubeBCID()).URI(BCID.getYoutubeBCID()).Title(json.getString("title")).
 //                        ThumbnailsUrl(json.getJSONObject("thumbnails").getJSONObject("default").getString("url")).
