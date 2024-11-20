@@ -46,7 +46,7 @@ public class BroadCastController {
                 String tmp = URIs[i].replace("https://", "").replace("www.", "")
                         .replace("chzzk.naver.com/live/", "");
                 bcid.setChzzk(tmp);
-            } else if (URIs[i].contains("play.afreecatv.com")) {
+            } else if (URIs[i].contains("play.sooplive.co.kr")) {
                 String[] tmp = URIs[i].replace("https://", "").replace("www.", "")
                         .split("/");
                 bcid.setAfreecaBID(tmp[1]);
